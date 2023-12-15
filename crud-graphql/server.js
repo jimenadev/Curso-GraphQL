@@ -15,12 +15,16 @@ const schema = buildSchema(`
 
     type Query {
         getCourses: [Course]
+        getCourse(id: ID!): Course
     }
 `)
 
 const root={
     getCourses: ()=> {
         return courses;
+    },
+    getCourse: ( {id} ) => {
+        return courses.find((course) => id==course.id)
     }
 }
 
