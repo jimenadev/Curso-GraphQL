@@ -1,5 +1,13 @@
 const express = require('express')
-const { GraphQLSchema, GraphQLObjectType, GraphQLString , graphql} = require('graphql')
+const { GraphQLSchema, GraphQLObjectType, GraphQLString , graphql, GraphQLInt} = require('graphql')
+
+const courseType = new GraphQLObjectType({
+    name: 'Course',
+    fields:{
+        title: { type: GraphQLString},
+        views: { type: GraphQLInt}
+    }
+})
 
 const schema = new GraphQLSchema({
     query: new GraphQLObjectType({
@@ -10,6 +18,12 @@ const schema = new GraphQLSchema({
                 resolve(){
                     return "Hola mundo"
                 }
+            },
+            course:{
+                type: courseType,
+                resolve(){
+                    return { title: 'Curso de graphQL', views: 1000 }
+                }
             }
         }
     })
@@ -17,7 +31,7 @@ const schema = new GraphQLSchema({
 const app = express();
 
 app.get('/graphql', function(req, res){
-    graphql({schema, source:'{ message }', contextValue:{req, res}}).then(r => res.json(r)).catch((r)=>res.json(error))
+    graphql({schema, source:'{ message, course{ title, views } }', contextValue:{req, res}}).then(r => res.json(r)).catch((r)=>res.json(error))
 })
 
 app.listen(8080, function(){
