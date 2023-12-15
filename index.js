@@ -1,8 +1,6 @@
 const express = require('express')
 const { GraphQLSchema, GraphQLObjectType, GraphQLString , graphql} = require('graphql')
 
-const app = express();
-
 const schema = new GraphQLSchema({
     query: new GraphQLObjectType({
         name: "RootQueryType",
@@ -16,9 +14,10 @@ const schema = new GraphQLSchema({
         }
     })
 })
+const app = express();
 
-app.get('/', function(req, res){
-    graphql(schema, ' {message} ').then(r => res.json(r)).catch(res.json)
+app.get('/graphql', function(req, res){
+    graphql({schema, source:'{ message }', contextValue:{req, res}}).then(r => res.json(r)).catch((r)=>res.json(error))
 })
 
 app.listen(8080, function(){
