@@ -2,6 +2,9 @@ const express = require('express');
 const { ApolloServer, gql } = require('apollo-server-express');
 const mongoose = require('mongoose');
 const courseTypeDefs = require('./types/course.types')
+const courseResolvers = require('./resolvers/course.resolvers')
+
+const { merge } = require('lodash')
 
 mongoose.connect('mongodb://localhost/graphql_db_course');
 
@@ -19,14 +22,12 @@ const typeDefs = gql`
     }
 `;
 
-const resolvers = {
-  // Aquí puedes agregar tus resolvers para manejar las consultas y mutaciones
-};
+const resolvers = {}
 
 async function startServer() {
   const server = new ApolloServer({ 
     typeDefs:[typeDefs, courseTypeDefs], 
-    resolvers 
+    resolvers : merge(resolvers, courseResolvers)
   });
 
   const app = express();
