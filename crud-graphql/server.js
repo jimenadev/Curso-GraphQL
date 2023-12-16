@@ -82,7 +82,7 @@ app.use('/graphql', graphqlHTTP({
     graphiql: true 
 }))
 
-app.listen(8000, function(){
+app.listen(3000, function(){
     console.log("Servidor iniciado")
 })
 
