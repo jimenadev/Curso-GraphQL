@@ -1,6 +1,7 @@
 const express = require('express');
 const { ApolloServer, gql } = require('apollo-server-express');
 const mongoose = require('mongoose');
+const courseTypeDefs = require('./types/course.types')
 
 mongoose.connect('mongodb://localhost/graphql_db_course');
 
@@ -23,7 +24,10 @@ const resolvers = {
 };
 
 async function startServer() {
-  const server = new ApolloServer({ typeDefs, resolvers });
+  const server = new ApolloServer({ 
+    typeDefs:[typeDefs, courseTypeDefs], 
+    resolvers 
+  });
 
   const app = express();
   await server.start();
