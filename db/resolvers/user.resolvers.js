@@ -12,7 +12,7 @@ module.exports = {
         },
         Mutation:{
             async signUp(obj, {input}){
-                const user = new User(input)
+                const user = new UserModel(input)
                 await user.save()
                 return user 
             },
