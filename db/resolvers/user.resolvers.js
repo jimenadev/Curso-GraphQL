@@ -16,6 +16,15 @@ module.exports = {
                 await user.save()
                 return user 
             },
+            async logIn(obj, {input}){
+                try{
+                    const user = UserModel.authenticate(input)
+                    return user
+                }catch(err){
+                    console.log(err)
+                    return null
+                }
+            }
         },
         User:{
             async courses(u){

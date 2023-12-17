@@ -19,4 +19,5 @@ module.exports = `
 
     extend type Mutation {
         signUp(input: UserInput): User
+        logIn(input: UserInput): User
     }`
