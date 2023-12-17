@@ -1,11 +1,13 @@
-const User = require('../models/user')
+const UserModel = require('../models/user')
+const CourseModel = require('../models/course')
+
 module.exports = {
         Query:{
             async getUsers(){
-                return await User.find()
+                return await UserModel.find()
             },
             async getUser(obj, {id}){
-                return await User.findById(id)
+                return await UserModel.findById(id)
             }
         },
         Mutation:{
@@ -14,5 +16,10 @@ module.exports = {
                 await user.save()
                 return user 
             },
+        },
+        User:{
+            async courses(u){
+                return await CourseModel.find({user:u.id})
+            }
         }
 }
