@@ -12,7 +12,7 @@ module.exports = `
     }
 
     extend type Query {
-        getCourses(page: Int, limit: Int = 1): [Course]
+        getCourses(page: Int, limit: Int = 4): [Course]
         getCourse(id: ID!): Course
     }
 
