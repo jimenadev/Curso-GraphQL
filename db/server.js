@@ -5,6 +5,7 @@ const courseTypeDefs = require('./types/course.types')
 const courseResolvers = require('./resolvers/course.resolvers')
 const userTypeDefs = require('./types/user.types')
 const userResolvers = require('./resolvers/user.resolvers.js')
+const auth = require('./libs/auth')
 
 
 const { merge } = require('lodash')
@@ -30,7 +31,8 @@ const resolvers = {}
 async function startServer() {
   const server = new ApolloServer({ 
     typeDefs:[typeDefs, courseTypeDefs, userTypeDefs], 
-    resolvers : merge(resolvers, courseResolvers, userResolvers)
+    resolvers : merge(resolvers, courseResolvers, userResolvers),
+    context: auth
   });
 
   const app = express();

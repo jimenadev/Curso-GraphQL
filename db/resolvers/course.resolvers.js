@@ -3,7 +3,7 @@ const UserModel = require('../models/user')
 
 module.exports = {
         Query:{
-            async getCourses(obj, {page, limit}){
+            async getCourses(obj, {page, limit}, context){
                let courses =  Course.find().populate('user')
                
                if(page !== undefined){
@@ -17,7 +17,7 @@ module.exports = {
             },
         },
         Mutation:{
-            async addCourse(obj, {input, user}){
+            async addCourse(obj, {input, user}, context){                
                 const userModel = await UserModel.findById({_id:user})
                 const course = new Course({...input, user })
                 await course.save()
