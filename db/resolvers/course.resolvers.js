@@ -1,34 +1,27 @@
-let courses = []
+const Course = require('../models/course')
 module.exports = {
         Query:{
-            getCourses(obj, {page, limit}){
-                if(page !== undefined){
-                    return courses.slice(page * limit, (page +1) * limit )
-                }
-                return courses;
+            async getCourses(obj, {page, limit}){
+               const courses = await Course.find()
+               return courses
             },
-            getCourse: ( {id} ) => {
-                return courses.find((course) => id==course.id)
+            async getCourse( obj, {id}) {
+                const course = await Course.findById(id)
+                return course
             },
         },
         Mutation:{
-            addCourse(obj, {input}){
-                const id = String(courses.length + 1)
-                const course = { id, ...input }
-                courses.push(course) 
+            async addCourse(obj, {input}){
+                const course = new Course(input)
+                await course.save()
                 return course 
             },
-            updateCourse(obj, {id, input}){
-                const courseIndex = courses.findIndex( (course) => id === course.id)
-                const course = courses[courseIndex]
-        
-                const newCourse = Object.assign(course, input)
-                course[courseIndex] = newCourse
-        
-                return newCourse
+            async updateCourse(obj, {id, input}){
+                const course = await Course.findByIdAndUpdate(id, input)
+                return course
             },
-            deleteCourse(obk, {id}){
-                courses = courses.filter((course) => course.id != id)
+            async deleteCourse(obj, {id}){
+                await Course.deleteOne({_id:id})
         
                 return{
                     message: `El curso con id ${id} fue eliminado`

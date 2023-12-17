@@ -5,4 +5,4 @@ const courseSchema = new mongoose.Schema({
     views: Number,
 })
 
-module,exports = mongoose.model('Course', courseSchema)
+module.exports = mongoose.model('Course', courseSchema)
