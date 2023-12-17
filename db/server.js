@@ -3,6 +3,9 @@ const { ApolloServer, gql } = require('apollo-server-express');
 const mongoose = require('mongoose');
 const courseTypeDefs = require('./types/course.types')
 const courseResolvers = require('./resolvers/course.resolvers')
+const userTypeDefs = require('./types/user.types')
+const userResolvers = require('./resolvers/user.resolvers.js')
+
 
 const { merge } = require('lodash')
 
@@ -26,8 +29,8 @@ const resolvers = {}
 
 async function startServer() {
   const server = new ApolloServer({ 
-    typeDefs:[typeDefs, courseTypeDefs], 
-    resolvers : merge(resolvers, courseResolvers)
+    typeDefs:[typeDefs, courseTypeDefs, userTypeDefs], 
+    resolvers : merge(resolvers, courseResolvers, userResolvers)
   });
 
   const app = express();
