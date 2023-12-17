@@ -1,4 +1,6 @@
 const Course = require('../models/course')
+const UserModel = require('../models/user')
+
 module.exports = {
         Query:{
             async getCourses(obj, {page, limit}){
@@ -15,9 +17,11 @@ module.exports = {
             },
         },
         Mutation:{
-            async addCourse(obj, {input}){
-                const course = new Course(input)
+            async addCourse(obj, {input, user}){
+                const userModel = await UserModel.findById({_id:user})
+                const course = new Course({...input, user})
                 await course.save()
+                await userModel.courses.push(course)
                 return course 
             },
             async updateCourse(obj, {id, input}){
